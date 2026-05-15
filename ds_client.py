@@ -8,3 +8,32 @@
 import socket
 import time
 import ds_protocol
+
+def _connect(server: str, port: int):
+    """Open a socket connection and return (client, send_file, recv_file).
+
+    Returns None if the connection fails.
+    """
+    try:
+        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client.connect((server, port))
+        send_file = client.makefile('w')
+        recv_file = client.makefile('r')
+        return client, send_file, recv_file
+    except socket.error as e:
+        print(f"ERROR: Could not connect to server. {e}")
+        return None
+    
+def _send_message(send_file, recv_file, message: str):
+    """Send a message and return the parsed DataTuple response.
+
+    Returns None if sending or parsing fails.
+    """
+    try:
+        send_file.write(message + '\r\n')
+        send_file.flush()
+        response = recv_file.readline()
+        return ds_protocol.extract_json(response)
+    except Exception as e:
+        print(f"ERROR: Failed to send message. {e}")
+        return None
