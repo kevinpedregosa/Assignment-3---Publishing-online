@@ -23,3 +23,17 @@ def _connect(server: str, port: int):
     except socket.error as e:
         print(f"ERROR: Could not connect to server. {e}")
         return None
+    
+def _send_message(send_file, recv_file, message: str):
+    """Send a message and return the parsed DataTuple response.
+
+    Returns None if sending or parsing fails.
+    """
+    try:
+        send_file.write(message + '\r\n')
+        send_file.flush()
+        response = recv_file.readline()
+        return ds_protocol.extract_json(response)
+    except Exception as e:
+        print(f"ERROR: Failed to send message. {e}")
+        return None
