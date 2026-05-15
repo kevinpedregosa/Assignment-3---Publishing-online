@@ -10,7 +10,6 @@ from collections import namedtuple
 
 DataTuple = namedtuple('DataTuple', ['type', 'message', 'token'])
 
-
 def extract_json(json_msg: str) -> DataTuple:
     """Parse a DSP server JSON response string into a DataTuple.
 
@@ -30,8 +29,7 @@ def extract_json(json_msg: str) -> DataTuple:
     except KeyError:
         print("ERROR: Unexpected JSON structure.")
         return None
-
-
+    
 def format_join(username: str, password: str) -> str:
     """Return a JSON-formatted join message string."""
     obj = {
@@ -43,24 +41,11 @@ def format_join(username: str, password: str) -> str:
     }
     return json.dumps(obj)
 
-
 def format_post(token: str, entry: str, timestamp: str) -> str:
     """Return a JSON-formatted post message string."""
     obj = {
         "token": token,
         "post": {
-            "entry": entry,
-            "timestamp": timestamp
-        }
-    }
-    return json.dumps(obj)
-
-
-def format_bio(token: str, entry: str, timestamp: str) -> str:
-    """Return a JSON-formatted bio message string."""
-    obj = {
-        "token": token,
-        "bio": {
             "entry": entry,
             "timestamp": timestamp
         }
