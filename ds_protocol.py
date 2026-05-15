@@ -29,3 +29,14 @@ def extract_json(json_msg: str) -> DataTuple:
     except KeyError:
         print("ERROR: Unexpected JSON structure.")
         return None
+    
+def format_join(username: str, password: str) -> str:
+    """Return a JSON-formatted join message string."""
+    obj = {
+        "join": {
+            "username": username,
+            "password": password,
+            "token": ""
+        }
+    }
+    return json.dumps(obj)
