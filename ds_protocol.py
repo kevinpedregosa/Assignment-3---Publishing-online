@@ -40,3 +40,14 @@ def format_join(username: str, password: str) -> str:
         }
     }
     return json.dumps(obj)
+
+def format_post(token: str, entry: str, timestamp: str) -> str:
+    """Return a JSON-formatted post message string."""
+    obj = {
+        "token": token,
+        "post": {
+            "entry": entry,
+            "timestamp": timestamp
+        }
+    }
+    return json.dumps(obj)
